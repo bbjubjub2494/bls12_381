@@ -94,7 +94,6 @@ impl ConditionallySelectable for G1Affine {
 
 impl Eq for G1Affine {}
 impl PartialEq for G1Affine {
-    #[inline]
     fn eq(&self, other: &Self) -> bool {
         bool::from(self.ct_eq(other))
     }
@@ -103,7 +102,6 @@ impl PartialEq for G1Affine {
 impl<'a> Neg for &'a G1Affine {
     type Output = G1Affine;
 
-    #[inline]
     fn neg(self) -> G1Affine {
         G1Affine {
             x: self.x,
@@ -116,7 +114,6 @@ impl<'a> Neg for &'a G1Affine {
 impl Neg for G1Affine {
     type Output = G1Affine;
 
-    #[inline]
     fn neg(self) -> G1Affine {
         -&self
     }
@@ -125,7 +122,6 @@ impl Neg for G1Affine {
 impl<'a, 'b> Add<&'b G1Projective> for &'a G1Affine {
     type Output = G1Projective;
 
-    #[inline]
     fn add(self, rhs: &'b G1Projective) -> G1Projective {
         rhs.add_mixed(self)
     }
@@ -134,7 +130,6 @@ impl<'a, 'b> Add<&'b G1Projective> for &'a G1Affine {
 impl<'a, 'b> Add<&'b G1Affine> for &'a G1Projective {
     type Output = G1Projective;
 
-    #[inline]
     fn add(self, rhs: &'b G1Affine) -> G1Projective {
         self.add_mixed(rhs)
     }
@@ -143,7 +138,6 @@ impl<'a, 'b> Add<&'b G1Affine> for &'a G1Projective {
 impl<'a, 'b> Sub<&'b G1Projective> for &'a G1Affine {
     type Output = G1Projective;
 
-    #[inline]
     fn sub(self, rhs: &'b G1Projective) -> G1Projective {
         self + (-rhs)
     }
@@ -152,7 +146,6 @@ impl<'a, 'b> Sub<&'b G1Projective> for &'a G1Affine {
 impl<'a, 'b> Sub<&'b G1Affine> for &'a G1Projective {
     type Output = G1Projective;
 
-    #[inline]
     fn sub(self, rhs: &'b G1Affine) -> G1Projective {
         self + (-rhs)
     }
@@ -390,7 +383,6 @@ impl G1Affine {
     }
 
     /// Returns true if this element is the identity (the point at infinity).
-    #[inline]
     pub fn is_identity(&self) -> Choice {
         self.infinity
     }
@@ -507,7 +499,6 @@ impl ConditionallySelectable for G1Projective {
 
 impl Eq for G1Projective {}
 impl PartialEq for G1Projective {
-    #[inline]
     fn eq(&self, other: &Self) -> bool {
         bool::from(self.ct_eq(other))
     }
@@ -516,7 +507,6 @@ impl PartialEq for G1Projective {
 impl<'a> Neg for &'a G1Projective {
     type Output = G1Projective;
 
-    #[inline]
     fn neg(self) -> G1Projective {
         G1Projective {
             x: self.x,
@@ -529,7 +519,6 @@ impl<'a> Neg for &'a G1Projective {
 impl Neg for G1Projective {
     type Output = G1Projective;
 
-    #[inline]
     fn neg(self) -> G1Projective {
         -&self
     }
@@ -538,7 +527,6 @@ impl Neg for G1Projective {
 impl<'a, 'b> Add<&'b G1Projective> for &'a G1Projective {
     type Output = G1Projective;
 
-    #[inline]
     fn add(self, rhs: &'b G1Projective) -> G1Projective {
         self.add(rhs)
     }
@@ -547,7 +535,6 @@ impl<'a, 'b> Add<&'b G1Projective> for &'a G1Projective {
 impl<'a, 'b> Sub<&'b G1Projective> for &'a G1Projective {
     type Output = G1Projective;
 
-    #[inline]
     fn sub(self, rhs: &'b G1Projective) -> G1Projective {
         self + (-rhs)
     }
@@ -564,7 +551,6 @@ impl<'a, 'b> Mul<&'b Scalar> for &'a G1Projective {
 impl<'a, 'b> Mul<&'b G1Projective> for &'a Scalar {
     type Output = G1Projective;
 
-    #[inline]
     fn mul(self, rhs: &'b G1Projective) -> Self::Output {
         rhs * self
     }
@@ -581,7 +567,6 @@ impl<'a, 'b> Mul<&'b Scalar> for &'a G1Affine {
 impl<'a, 'b> Mul<&'b G1Affine> for &'a Scalar {
     type Output = G1Projective;
 
-    #[inline]
     fn mul(self, rhs: &'b G1Affine) -> Self::Output {
         rhs * self
     }
@@ -593,7 +578,6 @@ impl_binops_multiplicative_mixed!(G1Affine, Scalar, G1Projective);
 impl_binops_multiplicative_mixed!(Scalar, G1Affine, G1Projective);
 impl_binops_multiplicative_mixed!(Scalar, G1Projective, G1Projective);
 
-#[inline(always)]
 fn mul_by_3b(a: Fp) -> Fp {
     let a = a + a; // 2
     let a = a + a; // 4
@@ -839,7 +823,6 @@ impl G1Projective {
     }
 
     /// Returns true if this element is the identity (the point at infinity).
-    #[inline]
     pub fn is_identity(&self) -> Choice {
         self.z.is_zero()
     }
@@ -892,7 +875,6 @@ impl ConstantTimeEq for G1Compressed {
 
 impl Eq for G1Compressed {}
 impl PartialEq for G1Compressed {
-    #[inline]
     fn eq(&self, other: &Self) -> bool {
         bool::from(self.ct_eq(other))
     }
@@ -936,7 +918,6 @@ impl ConstantTimeEq for G1Uncompressed {
 
 impl Eq for G1Uncompressed {}
 impl PartialEq for G1Uncompressed {
-    #[inline]
     fn eq(&self, other: &Self) -> bool {
         bool::from(self.ct_eq(other))
     }

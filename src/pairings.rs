@@ -179,7 +179,6 @@ impl MillerLoopResult {
 impl<'a, 'b> Add<&'b MillerLoopResult> for &'a MillerLoopResult {
     type Output = MillerLoopResult;
 
-    #[inline]
     fn add(self, rhs: &'b MillerLoopResult) -> MillerLoopResult {
         MillerLoopResult(self.0 * rhs.0)
     }
@@ -188,14 +187,12 @@ impl<'a, 'b> Add<&'b MillerLoopResult> for &'a MillerLoopResult {
 impl_add_binop_specify_output!(MillerLoopResult, MillerLoopResult, MillerLoopResult);
 
 impl AddAssign<MillerLoopResult> for MillerLoopResult {
-    #[inline]
     fn add_assign(&mut self, rhs: MillerLoopResult) {
         *self = *self + rhs;
     }
 }
 
 impl<'b> AddAssign<&'b MillerLoopResult> for MillerLoopResult {
-    #[inline]
     fn add_assign(&mut self, rhs: &'b MillerLoopResult) {
         *self = *self + rhs;
     }
@@ -239,7 +236,6 @@ impl ConditionallySelectable for Gt {
 
 impl Eq for Gt {}
 impl PartialEq for Gt {
-    #[inline]
     fn eq(&self, other: &Self) -> bool {
         bool::from(self.ct_eq(other))
     }
@@ -260,7 +256,6 @@ impl Gt {
 impl<'a> Neg for &'a Gt {
     type Output = Gt;
 
-    #[inline]
     fn neg(self) -> Gt {
         // The element is unitary, so we just conjugate.
         Gt(self.0.conjugate())
@@ -270,7 +265,6 @@ impl<'a> Neg for &'a Gt {
 impl Neg for Gt {
     type Output = Gt;
 
-    #[inline]
     fn neg(self) -> Gt {
         -&self
     }
@@ -279,7 +273,6 @@ impl Neg for Gt {
 impl<'a, 'b> Add<&'b Gt> for &'a Gt {
     type Output = Gt;
 
-    #[inline]
     fn add(self, rhs: &'b Gt) -> Gt {
         Gt(self.0 * rhs.0)
     }
@@ -288,7 +281,6 @@ impl<'a, 'b> Add<&'b Gt> for &'a Gt {
 impl<'a, 'b> Sub<&'b Gt> for &'a Gt {
     type Output = Gt;
 
-    #[inline]
     fn sub(self, rhs: &'b Gt) -> Gt {
         self + (-rhs)
     }

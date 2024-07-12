@@ -43,7 +43,6 @@ impl PartialEq for Fp6 {
 
 impl Copy for Fp6 {}
 impl Clone for Fp6 {
-    #[inline]
     fn clone(&self) -> Self {
         *self
     }
@@ -65,7 +64,6 @@ impl fmt::Debug for Fp6 {
 }
 
 impl ConditionallySelectable for Fp6 {
-    #[inline(always)]
     fn conditional_select(a: &Self, b: &Self, choice: Choice) -> Self {
         Fp6 {
             c0: Fp2::conditional_select(&a.c0, &b.c0, choice),
@@ -76,14 +74,12 @@ impl ConditionallySelectable for Fp6 {
 }
 
 impl ConstantTimeEq for Fp6 {
-    #[inline(always)]
     fn ct_eq(&self, other: &Self) -> Choice {
         self.c0.ct_eq(&other.c0) & self.c1.ct_eq(&other.c1) & self.c2.ct_eq(&other.c2)
     }
 }
 
 impl Fp6 {
-    #[inline]
     pub fn zero() -> Self {
         Fp6 {
             c0: Fp2::zero(),
@@ -92,7 +88,6 @@ impl Fp6 {
         }
     }
 
-    #[inline]
     pub fn one() -> Self {
         Fp6 {
             c0: Fp2::one(),
@@ -150,7 +145,6 @@ impl Fp6 {
     }
 
     /// Raises this element to p.
-    #[inline(always)]
     pub fn frobenius_map(&self) -> Self {
         let c0 = self.c0.frobenius_map();
         let c1 = self.c1.frobenius_map();
@@ -187,7 +181,6 @@ impl Fp6 {
         Fp6 { c0, c1, c2 }
     }
 
-    #[inline(always)]
     pub fn is_zero(&self) -> Choice {
         self.c0.is_zero() & self.c1.is_zero() & self.c2.is_zero()
     }
@@ -196,7 +189,6 @@ impl Fp6 {
     ///
     /// Implements the full-tower interleaving strategy from
     /// [ePrint 2022-376](https://eprint.iacr.org/2022/367).
-    #[inline]
     fn mul_interleaved(&self, b: &Self) -> Self {
         // The intuition for this algorithm is that we can look at F_p^6 as a direct
         // extension of F_p^2, and express the overall operations down to the base field
@@ -273,7 +265,6 @@ impl Fp6 {
         }
     }
 
-    #[inline]
     pub fn square(&self) -> Self {
         let s0 = self.c0.square();
         let ab = self.c0 * self.c1;
@@ -290,7 +281,6 @@ impl Fp6 {
         }
     }
 
-    #[inline]
     pub fn invert(&self) -> CtOption<Self> {
         let c0 = (self.c1 * self.c2).mul_by_nonresidue();
         let c0 = self.c0.square() - c0;
@@ -315,7 +305,6 @@ impl Fp6 {
 impl<'a, 'b> Mul<&'b Fp6> for &'a Fp6 {
     type Output = Fp6;
 
-    #[inline]
     fn mul(self, other: &'b Fp6) -> Self::Output {
         self.mul_interleaved(other)
     }
@@ -324,7 +313,6 @@ impl<'a, 'b> Mul<&'b Fp6> for &'a Fp6 {
 impl<'a, 'b> Add<&'b Fp6> for &'a Fp6 {
     type Output = Fp6;
 
-    #[inline]
     fn add(self, rhs: &'b Fp6) -> Self::Output {
         Fp6 {
             c0: self.c0 + rhs.c0,
@@ -337,7 +325,6 @@ impl<'a, 'b> Add<&'b Fp6> for &'a Fp6 {
 impl<'a> Neg for &'a Fp6 {
     type Output = Fp6;
 
-    #[inline]
     fn neg(self) -> Self::Output {
         Fp6 {
             c0: -self.c0,
@@ -350,7 +337,6 @@ impl<'a> Neg for &'a Fp6 {
 impl Neg for Fp6 {
     type Output = Fp6;
 
-    #[inline]
     fn neg(self) -> Self::Output {
         -&self
     }
@@ -359,7 +345,6 @@ impl Neg for Fp6 {
 impl<'a, 'b> Sub<&'b Fp6> for &'a Fp6 {
     type Output = Fp6;
 
-    #[inline]
     fn sub(self, rhs: &'b Fp6) -> Self::Output {
         Fp6 {
             c0: self.c0 - rhs.c0,
